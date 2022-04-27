@@ -10,7 +10,7 @@ class TaskList {
   }
 
   static getStore() {
-    TaskList.#taskList = JSON.parse(localStorage.getItem(TaskList.#lsTaskList));
+    TaskList.#taskList = JSON.parse(localStorage.getItem(TaskList.#lsTaskList) || '[]');
   }
 
   static add = (task) => {
