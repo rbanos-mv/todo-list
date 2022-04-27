@@ -6,9 +6,7 @@ class TaskList {
     { description: 'ddd', completed: false, index: 4 },
   ];
 
-  static getTaskList() {
-    return this.#taskList;
-  }
+  static getTaskList = () => this.#taskList;
 }
 
 export default TaskList;

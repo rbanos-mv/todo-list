@@ -12,18 +12,18 @@ class UI {
 
   static #template = document.querySelector('li');
 
-  static displayTask(task) {
+  static displayTask = (task) => {
     const taskElement = UI.#template.cloneNode(true);
     taskElement.querySelector('input').checked = task.completed;
     taskElement.querySelector('label').lastChild.textContent = task.description;
     taskElement.querySelector('img').src = more;
     UI.#taskList.appendChild(taskElement);
-  }
+  };
 
-  static diplayTaskList() {
+  static diplayTaskList = () => {
     const list = TaskList.getTaskList();
     list.forEach((task) => UI.displayTask(task));
-  }
+  };
 }
 
 export default UI;
