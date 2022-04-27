@@ -9,7 +9,8 @@
     "stylelint": "npx stylelint **/*.{css,scss} --fix",
     "eslint": "npx eslint . --fix ",
     "build": "webpack",
-    "start": "webpack serve --open"
+    "start": "webpack serve --open",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.26.0",
+    "gh-pages": "^3.2.3",
     "hint": "^6.1.11",
     "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.6.2",
