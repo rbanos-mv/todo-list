@@ -25,6 +25,7 @@ class UI {
     const deleBtn = UI.getDeleBtn(taskElement);
     deleBtn.src = deleteIco;
     deleBtn.textContent = index;
+    deleBtn.addEventListener('click', UI.remove);
 
     const moreBtn = UI.getMoreBtn(taskElement);
     moreBtn.src = moreIco;
@@ -99,6 +100,29 @@ class UI {
         completed: checkboxElement.checked,
         index,
       });
+      UI.#taskNew.focus();
+    } else UI.getDeleBtn(taskElement).dispatchEvent(new Event('click'));
+  };
+
+  static renumberTaskList = () => {
+    if (UI.#taskList.hasChildNodes()) {
+      const taskElements = UI.#taskList.childNodes;
+      taskElements.forEach((taskElement, i) => {
+        UI.getDeleBtn(taskElement).textContent = i + 1;
+        UI.getMoreBtn(taskElement).textContent = i + 1;
+      });
+    }
+  };
+
+  static remove = (event) => {
+    const btnElement = event.target;
+    const taskElement = btnElement.parentElement;
+    const { value } = UI.getTaskEdit(taskElement);
+    if (value.trim() === '') {
+      const index = parseInt(btnElement.textContent, 10);
+      TaskList.remove(index);
+      btnElement.parentElement.remove();
+      UI.renumberTaskList();
       UI.#taskNew.focus();
     }
   };
