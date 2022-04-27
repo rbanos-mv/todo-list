@@ -20,17 +20,26 @@
 
 [Live Demo Link](https://rbanos-mv.github.io/todo-list/)
 
-### Project Requirements
+### Getting Started
 
-- Set up a new project with webpack.
-- Create an index.html file and write your HTML markup here. The index.html file must be set as a template using the HTML Webpack Plugin.
-- Create an index.js file and set an array of some simple to do tasks (array of objects). Each task object should contain three keys:
-  - description [string].
-  - completed [bool].
-  - index: [number].
-- Write a function to iterate over the tasks array and populate an HTML list item element for each task.
-- On page load render the dynamically created list of tasks in the dedicated placeholder. The list should appear in order of the index values for each task.
-  Create a style.css and set rules for the To Do List. CSS must be loaded by Webpack Style/CSS Loader. Your list should be a clone of the part of the minimalist project captured in the video below.
+To get a local copy up and running follow these simple steps:
+
+1. Open your terminal and navigate to the folder you would like to put these files.
+2. Type these commands into the terminal:
+
+- git clone https://github.com/rbanos-mv/todo-list.git
+- cd todo
+- npm install
+
+3. To build the project with webpack
+
+- npm run build
+- Open dist/index.html in you web browser.
+
+4. To run the webpack dev server
+
+- npm run start
+- Your web browser will open on localhost:8080
 
 ## Authors
 
