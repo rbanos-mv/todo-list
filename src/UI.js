@@ -60,6 +60,7 @@ class UI {
   };
 
   static setup = () => {
+    TaskList.getStore();
     UI.diplayTaskList();
     UI.#taskNew.addEventListener('keypress', UI.add);
   };
