@@ -47,6 +47,10 @@ class UI {
     UI.showActionButton(taskElement, true);
 
     UI.#taskList.appendChild(taskElement);
+
+    taskEdit.addEventListener('focusin', UI.modify);
+    taskEdit.addEventListener('focusout', UI.modify);
+    taskEdit.addEventListener('keypress', UI.modify);
   };
 
   static diplayTaskList = () => {
@@ -67,6 +71,35 @@ class UI {
       UI.displayTask(newTask);
       UI.#taskNew.value = '';
       event.preventDefault();
+    }
+  };
+
+  static modify = (event) => {
+    const { type, target } = event;
+    const isKeypressed = type === 'keypressed';
+    if (isKeypressed && event.key !== 'Enter') return;
+
+    const isModifying = type === 'focusin';
+
+    const taskElement = target.parentElement;
+    taskElement.classList.toggle('selected', isModifying);
+    UI.showActionButton(taskElement, !isModifying);
+
+    if (isModifying) return;
+
+    const editElement = UI.getTaskEdit(taskElement);
+    const value = editElement.value.trim();
+
+    const moreElement = UI.getMoreBtn(taskElement);
+    const index = parseInt(moreElement.textContent, 10);
+    if (value !== '') {
+      const checkboxElement = UI.getCheckBox(taskElement);
+      TaskList.modify({
+        description: value,
+        completed: checkboxElement.checked,
+        index,
+      });
+      UI.#taskNew.focus();
     }
   };
 }
