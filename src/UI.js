@@ -24,6 +24,10 @@ class UI {
     const list = TaskList.getTaskList();
     list.forEach((task) => UI.displayTask(task));
   };
+
+  static setup = () => {
+    UI.diplayTaskList();
+  };
 }
 
 export default UI;

@@ -1,6 +1,4 @@
 import './index.css';
 import UI from './UI.js';
 
-window.addEventListener('DOMContentLoaded', () => {
-  UI.diplayTaskList();
-});
+window.addEventListener('DOMContentLoaded', UI.setup);
