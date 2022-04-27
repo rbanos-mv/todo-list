@@ -29,7 +29,7 @@ input[type="checkbox"] {
 
 input[type="text"] {
   border: none;
-  width: 100%;
+  width: calc(100% - 50px);
 }
 
 input[type="text"]::placeholder {
