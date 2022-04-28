@@ -81,6 +81,11 @@ li {
   background-color: lightgoldenrodyellow;
 }
 
+.completed {
+  color: lightslategrey;
+  text-decoration: line-through;
+}
+
 .hidden {
   display: none;
 }
