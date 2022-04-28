@@ -34,6 +34,12 @@ class TaskList {
     TaskList.#taskList = list.map((task, i) => ({ ...task, index: i + 1 }));
     TaskList.setStore();
   };
+
+  static updateCompleted = (id, checked) => {
+    const task = TaskList.get(id);
+    task.completed = checked;
+    TaskList.modify(task);
+  };
 }
 
 export default TaskList;

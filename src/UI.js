@@ -55,7 +55,8 @@ class UI {
 
   static displayTask = (task) => {
     const taskElement = UI.#template.cloneNode(true);
-    UI.getCheckBox(taskElement).checked = task.completed;
+    const checkboxElement = UI.getCheckBox(taskElement);
+    checkboxElement.checked = task.completed;
     const taskEdit = UI.getTaskEdit(taskElement);
     taskEdit.value = task.description;
     UI.setActionButtons(taskElement, task.index);
@@ -66,6 +67,7 @@ class UI {
     taskEdit.addEventListener('focusin', UI.modify);
     taskEdit.addEventListener('focusout', UI.modify);
     taskEdit.addEventListener('keypress', UI.modify);
+    checkboxElement.addEventListener('change', UI.updateCompleted);
   };
 
   static diplayTaskList = () => {
@@ -142,6 +144,14 @@ class UI {
       UI.renumberTaskList();
       UI.#taskNew.focus();
     }
+  };
+
+  static updateCompleted = (event) => {
+    const checkboxElement = event.target;
+    const taskElement = checkboxElement.parentElement;
+    UI.getTaskEdit(taskElement).classList.toggle('completed', checkboxElement.checked);
+    const taskId = parseInt(UI.getDeleBtn(taskElement).textContent, 10);
+    TaskList.updateCompleted(taskId, checkboxElement.checked);
   };
 }
 
