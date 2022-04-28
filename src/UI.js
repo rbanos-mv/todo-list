@@ -108,7 +108,9 @@ class UI {
 
     const taskElement = target.parentElement;
     taskElement.classList.toggle('selected', isModifying);
-    UI.showActionButton(taskElement, !isModifying);
+    setTimeout(() => {
+      UI.showActionButton(taskElement, !isModifying);
+    }, 100);
 
     if (isModifying) return;
 
@@ -140,15 +142,11 @@ class UI {
 
   static remove = (event) => {
     const btnElement = event.target;
-    const taskElement = btnElement.parentElement;
-    const { value } = UI.getTaskEdit(taskElement);
-    if (value.trim() === '') {
-      const index = parseInt(btnElement.textContent, 10);
-      TaskList.remove(index);
-      btnElement.parentElement.remove();
-      UI.renumberTaskList();
-      UI.#taskNew.focus();
-    }
+    const index = parseInt(btnElement.textContent, 10);
+    TaskList.remove(index);
+    btnElement.parentElement.remove();
+    UI.renumberTaskList();
+    UI.#taskNew.focus();
   };
 
   static updateCompleted = (event) => {
