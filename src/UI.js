@@ -15,6 +15,8 @@ class UI {
 
   static #template = document.querySelector('li');
 
+  static #clearBtn = document.querySelector('button');
+
   static getCheckBox = (taskElement) => taskElement.querySelector('input[type="checkbox"]');
 
   static getDeleBtn = (taskElement) => taskElement.querySelector('#dele');
@@ -59,6 +61,8 @@ class UI {
     checkboxElement.checked = task.completed;
     const taskEdit = UI.getTaskEdit(taskElement);
     taskEdit.value = task.description;
+    taskEdit.classList.toggle('completed', task.completed);
+
     UI.setActionButtons(taskElement, task.index);
     UI.showActionButton(taskElement, true);
 
@@ -80,6 +84,7 @@ class UI {
     UI.setFormIcons();
     UI.diplayTaskList();
     UI.#taskNew.addEventListener('keypress', UI.add);
+    UI.#clearBtn.addEventListener('click', UI.clearCompleted);
   };
 
   static add = (event) => {
@@ -152,6 +157,23 @@ class UI {
     UI.getTaskEdit(taskElement).classList.toggle('completed', checkboxElement.checked);
     const taskId = parseInt(UI.getDeleBtn(taskElement).textContent, 10);
     TaskList.updateCompleted(taskId, checkboxElement.checked);
+  };
+
+  static clearCompleted = () => {
+    const taskElements = UI.#taskList.childNodes;
+    let i = 0;
+    TaskList.clearCompleted();
+    while (i < taskElements.length) {
+      const taskElement = taskElements[i];
+      const checkboxElement = UI.getCheckBox(taskElement);
+      if (checkboxElement.checked) {
+        taskElement.remove();
+      } else {
+        i += 1;
+        UI.getDeleBtn(taskElement).textContent = i;
+        UI.getMoreBtn(taskElement).textContent = i;
+      }
+    }
   };
 }
 
