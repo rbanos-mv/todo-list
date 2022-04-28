@@ -28,8 +28,9 @@ input[type="checkbox"] {
 }
 
 input[type="text"] {
+  background-color: transparent;
   border: none;
-  width: 100%;
+  width: calc(100% - 50px);
 }
 
 input[type="text"]::placeholder {
@@ -74,6 +75,10 @@ li {
 .more {
   position: absolute;
   right: 5px;
+}
+
+.selected {
+  background-color: lightgoldenrodyellow;
 }
 
 .hidden {
