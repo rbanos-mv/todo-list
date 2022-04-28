@@ -1,6 +1,8 @@
 import TaskList from './TaskList.js';
 import deleteIco from './delete.svg';
+import enterIco from './return.svg';
 import moreIco from './more.svg';
+import renewIco from './renew.svg';
 
 class UI {
   static #heading = document.querySelector('.heading');
@@ -20,6 +22,18 @@ class UI {
   static getMoreBtn = (taskElement) => taskElement.querySelector('#more');
 
   static getTaskEdit = (taskElement) => taskElement.querySelector('#task-edit');
+
+  static setFormIcons = () => {
+    const renewIcon = new Image();
+    renewIcon.src = renewIco;
+    UI.#heading.appendChild(renewIcon);
+    renewIcon.addEventListener('click', window.location.reload.bind(window.location));
+
+    const enterIcon = new Image();
+    enterIcon.src = enterIco;
+    UI.#newItem.appendChild(enterIcon);
+    enterIcon.addEventListener('click', UI.add);
+  };
 
   static setActionButtons(taskElement, index) {
     const deleBtn = UI.getDeleBtn(taskElement);
@@ -61,25 +75,27 @@ class UI {
 
   static setup = () => {
     TaskList.getStore();
+    UI.setFormIcons();
     UI.diplayTaskList();
     UI.#taskNew.addEventListener('keypress', UI.add);
   };
 
   static add = (event) => {
-    const editElement = event.target;
-    if (event.key === 'Enter' && editElement.value) {
-      const description = UI.#taskNew.value;
+    const { type, key } = event;
+    if (type === 'keypress' && key !== 'Enter') return;
+
+    const description = UI.#taskNew.value.trim();
+    if (description !== '') {
       const newTask = TaskList.add({ description });
       UI.displayTask(newTask);
       UI.#taskNew.value = '';
-      event.preventDefault();
     }
+    event.preventDefault();
   };
 
   static modify = (event) => {
-    const { type, target } = event;
-    const isKeypressed = type === 'keypressed';
-    if (isKeypressed && event.key !== 'Enter') return;
+    const { type, key, target } = event;
+    if (type === 'keypress' && key !== 'Enter') return;
 
     const isModifying = type === 'focusin';
 
