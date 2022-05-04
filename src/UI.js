@@ -5,17 +5,17 @@ import moreIco from './more.svg';
 import renewIco from './renew.svg';
 
 class UI {
-  static #heading = document.querySelector('.heading');
+  static #heading = () => document.querySelector('.heading');
 
-  static #newItem = document.querySelector('.input-row');
+  static #newItem = () => document.querySelector('.input-row');
 
-  static #taskNew = document.querySelector('#task-new');
+  static #taskNew = () => document.querySelector('#task-new');
 
-  static #taskList = document.querySelector('#todo-list');
+  static #taskList = () => document.querySelector('#todo-list');
 
-  static #template = document.querySelector('li');
+  static #template = () => document.querySelector('li');
 
-  static #clearBtn = document.querySelector('button');
+  static #clearBtn = () => document.querySelector('button');
 
   static getCheckBox = (taskElement) => taskElement.querySelector('input[type="checkbox"]');
 
@@ -28,12 +28,12 @@ class UI {
   static setFormIcons = () => {
     const renewIcon = new Image();
     renewIcon.src = renewIco;
-    UI.#heading.appendChild(renewIcon);
+    UI.#heading().appendChild(renewIcon);
     renewIcon.addEventListener('click', window.location.reload.bind(window.location));
 
     const enterIcon = new Image();
     enterIcon.src = enterIco;
-    UI.#newItem.appendChild(enterIcon);
+    UI.#newItem().appendChild(enterIcon);
     enterIcon.addEventListener('click', UI.add);
   };
 
@@ -56,7 +56,7 @@ class UI {
   };
 
   static displayTask = (task) => {
-    const taskElement = UI.#template.cloneNode(true);
+    const taskElement = UI.#template().cloneNode(true);
     const checkboxElement = UI.getCheckBox(taskElement);
     checkboxElement.checked = task.completed;
     const taskEdit = UI.getTaskEdit(taskElement);
@@ -66,7 +66,7 @@ class UI {
     UI.setActionButtons(taskElement, task.index);
     UI.showActionButton(taskElement, true);
 
-    UI.#taskList.appendChild(taskElement);
+    UI.#taskList().appendChild(taskElement);
 
     taskEdit.addEventListener('focusin', UI.modify);
     taskEdit.addEventListener('focusout', UI.modify);
@@ -83,19 +83,20 @@ class UI {
     TaskList.getStore();
     UI.setFormIcons();
     UI.diplayTaskList();
-    UI.#taskNew.addEventListener('keypress', UI.add);
-    UI.#clearBtn.addEventListener('click', UI.clearCompleted);
+    UI.#taskNew().addEventListener('keypress', UI.add);
+    UI.#clearBtn().addEventListener('click', UI.clearCompleted);
   };
 
   static add = (event) => {
     const { type, key } = event;
     if (type === 'keypress' && key !== 'Enter') return;
 
-    const description = UI.#taskNew.value.trim();
+    const taskNewElement = UI.#taskNew();
+    const description = taskNewElement.value.trim();
     if (description !== '') {
       const newTask = TaskList.add({ description });
       UI.displayTask(newTask);
-      UI.#taskNew.value = '';
+      taskNewElement.value = '';
     }
     event.preventDefault();
   };
@@ -126,13 +127,14 @@ class UI {
         completed: checkboxElement.checked,
         index,
       });
-      UI.#taskNew.focus();
+      UI.#taskNew().focus();
     } else UI.getDeleBtn(taskElement).dispatchEvent(new Event('click'));
   };
 
   static renumberTaskList = () => {
-    if (UI.#taskList.hasChildNodes()) {
-      const taskElements = UI.#taskList.childNodes;
+    const taskListElement = UI.#taskList();
+    if (taskListElement.hasChildNodes()) {
+      const taskElements = taskListElement.childNodes;
       taskElements.forEach((taskElement, i) => {
         UI.getDeleBtn(taskElement).textContent = i + 1;
         UI.getMoreBtn(taskElement).textContent = i + 1;
@@ -146,7 +148,7 @@ class UI {
     TaskList.remove(index);
     btnElement.parentElement.remove();
     UI.renumberTaskList();
-    UI.#taskNew.focus();
+    UI.#taskNew().focus();
   };
 
   static updateCompleted = (event) => {
@@ -158,7 +160,7 @@ class UI {
   };
 
   static clearCompleted = () => {
-    const taskElements = UI.#taskList.childNodes;
+    const taskElements = UI.#taskList().childNodes;
     let i = 0;
     TaskList.clearCompleted();
     while (i < taskElements.length) {
