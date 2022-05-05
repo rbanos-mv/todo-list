@@ -5,7 +5,8 @@ class TaskList {
 
   static getTaskList = () => TaskList.#taskList;
 
-  static setStore() {
+  static setStore(taskList) {
+    if (taskList) TaskList.#taskList = taskList;
     localStorage.setItem(TaskList.#lsTaskList, JSON.stringify(TaskList.#taskList));
   }
 
