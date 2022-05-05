@@ -1,4 +1,5 @@
 import UI from '../src/UI.js';
+import TaskList from '../src/TaskList.js';
 
 const htmlDocument = `
   <section>
@@ -21,6 +22,13 @@ const htmlDocument = `
       <img id="dele" class="more" src="#" alt="#">1</img>
     </li>
   </ul>`;
+
+const liHtml = `<li>
+    <input type="checkbox" />
+    <input id="task-edit" type="text" value="old description" />
+    <img id="more" class="more" src="#" alt="#">1</img>
+    <img id="dele" class="more" src="#" alt="#">1</img>
+  </li>`;
 
 describe('User Interface', () => {
   let before = null;
@@ -73,5 +81,38 @@ describe('User Interface', () => {
     const afterDelete = document.querySelectorAll('#todo-list li');
     expect(afterDelete).toBeDefined();
     expect(afterDelete).toHaveLength(beforeDelete.length - 1);
+  });
+
+  it('modify(event)', () => {
+    const list = document.querySelector('#todo-list');
+    list.innerHTML = liHtml;
+    const descriptionElement = list.querySelector('#task-edit');
+    const oldDescription = descriptionElement.value;
+    const newDescription = 'Description is new';
+    descriptionElement.value = newDescription;
+    list.querySelector('#dele').textContent = '1';
+    list.querySelector('#more').textContent = '1';
+    TaskList.setStore([
+      {
+        description: oldDescription,
+        completed: false,
+        index: 1,
+      },
+    ]);
+    const event = {
+      type: 'focusout',
+      key: null,
+      target: descriptionElement,
+    };
+
+    UI.modify(event);
+
+    const childElements = list.childNodes;
+    expect(childElements).toBeDefined();
+    expect(childElements).toHaveLength(1);
+    expect(descriptionElement.value).not.toBe(oldDescription);
+    expect(descriptionElement.value).toBe(newDescription);
+    expect(TaskList.getTaskList()).toHaveLength(1);
+    expect(TaskList.get(1).description).toBe(newDescription);
   });
 });
