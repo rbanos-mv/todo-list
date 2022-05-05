@@ -13,14 +13,13 @@ describe('Task List', () => {
   });
 
   it('remove(index)', () => {
-    const tasks = [
+    TaskList.setStore([
       {
         description: 'This is the description',
         completed: false,
         index: 1,
       },
-    ];
-    TaskList.setStore(tasks);
+    ]);
 
     expect(TaskList.remove(1));
     expect(TaskList.getTaskList().length).toBe(0);
