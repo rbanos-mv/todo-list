@@ -115,4 +115,41 @@ describe('User Interface', () => {
     expect(TaskList.getTaskList()).toHaveLength(1);
     expect(TaskList.get(1).description).toBe(newDescription);
   });
+
+  it('updateCompleted(event)', () => {
+    const list = document.querySelector('#todo-list');
+    list.innerHTML = liHtml;
+    const cbElement = list.querySelector('input[type="checkbox"]');
+    list.querySelector('#dele').textContent = '1';
+    list.querySelector('#more').textContent = '1';
+    TaskList.setStore([
+      {
+        description: 'old description',
+        completed: false,
+        index: 1,
+      },
+    ]);
+    const event = {
+      type: 'click',
+      key: null,
+      target: cbElement,
+    };
+    cbElement.checked = true;
+
+    UI.updateCompleted(event);
+    let childElements = list.childNodes;
+    expect(childElements).toBeDefined();
+    expect(childElements).toHaveLength(1);
+    expect(TaskList.getTaskList()).toHaveLength(1);
+    expect(TaskList.get(1).completed).toBe(true);
+
+    cbElement.checked = false;
+
+    UI.updateCompleted(event);
+    childElements = list.childNodes;
+    expect(childElements).toBeDefined();
+    expect(childElements).toHaveLength(1);
+    expect(TaskList.getTaskList()).toHaveLength(1);
+    expect(TaskList.get(1).completed).toBe(false);
+  });
 });
